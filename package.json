@@ -1,0 +1,11 @@
+{
+  "name": "my-vue",
+  "version": "1.0.0",
+  "description": "mini-vue my-vue",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {},
+  "keywords": [],
+  "author": "jackchoumine <jackzhoumine@gmail.com;jackchou4job@163.com>",
+  "license": "MIT"
+}
