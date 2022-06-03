@@ -1,11 +1,8 @@
 /*
- * @Description :
- * @Date        : 2022-06-03 22:48:01 +0800
+ * @Description : 入口
+ * @Date        : 2022-06-04 05:09:10 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 04:08:15 +0800
+ * @LastEditTime: 2022-06-04 05:11:28 +0800
  * @LastEditors : JackChou
  */
-export { reactive } from './reactive.js'
-export { effect } from './effect.js'
-export { ref } from './ref.js'
-export { computed } from './computed.js'
+export { computed, ref, reactive, effect } from './reactive/index.js'

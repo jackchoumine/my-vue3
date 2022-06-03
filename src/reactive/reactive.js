@@ -5,7 +5,7 @@
  * @LastEditTime: 2022-06-04 01:14:54 +0800
  * @LastEditors : JackChou
  */
-import { isObject, isReactive, hasChange } from './utils.js'
+import { isObject, isReactive, hasChange } from '../utils/index.js'
 import { track, trigger } from './effect.js'
 
 const proxyMap = new WeakMap()

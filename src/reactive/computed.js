@@ -2,11 +2,11 @@
  * @Description : 计算属性
  * @Date        : 2022-06-04 03:37:25 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 05:06:31 +0800
+ * @LastEditTime: 2022-06-04 05:10:50 +0800
  * @LastEditors : JackChou
  */
 import { effect, track, trigger } from './effect.js'
-import { isObject } from './utils.js'
+import { isObject } from '../utils/index.js'
 
 export function computed(getterOrSetter) {
   let setter = () => {

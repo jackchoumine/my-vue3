@@ -2,10 +2,10 @@
  * @Description : 副作用
  * @Date        : 2022-06-03 23:06:05 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 04:38:31 +0800
+ * @LastEditTime: 2022-06-04 05:10:35 +0800
  * @LastEditors : JackChou
  */
-import { isFn } from './utils.js'
+import { isFn } from '../utils/index.js'
 
 const effectStack = []
 // NOTE 记录当前副作用
