@@ -2,7 +2,7 @@
  * @Description : 副作用
  * @Date        : 2022-06-03 23:06:05 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 03:15:47 +0800
+ * @LastEditTime: 2022-06-04 03:18:17 +0800
  * @LastEditors : JackChou
  */
 import { isFn } from './utils.js'
@@ -71,8 +71,7 @@ export function trigger(target, key) {
   if (!depsMap) return
   const deps = depsMap.get(key)
   if (!deps) return
-  console.log('deps')
-  console.log(deps.size)
+  console.log('deps size', deps.size)
   deps.forEach((effect) => {
     effect()
   })

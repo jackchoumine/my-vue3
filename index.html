@@ -2,7 +2,7 @@
  * @Description : 测试页面
  * @Date        : 2022-06-03 22:45:56 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 03:14:17 +0800
+ * @LastEditTime: 2022-06-04 03:32:13 +0800
  * @LastEditors : JackChou
 -->
 <!DOCTYPE html>
@@ -17,7 +17,7 @@
   <body>
     <div id="app"><h1>hello vue</h1></div>
     <script type="module">
-      import { reactive, effect } from '/src/index.js'
+      import { effect, ref } from '/src/index.js'
       // import { reactive, effect } from '/node_modules/vue/dist/vue.esm-browser.prod.js'
       // import { reactive } from Vue
       // const ref = reactive({
@@ -43,15 +43,20 @@
       // })
       // window.arr = arr
       // NOTE 嵌套的副作用 38:00
-      const ref = reactive({ name: 'jack', age: 20 })
+      // const ref = reactive({ name: 'jack', age: 20 })
+      // effect(() => {
+      //   console.log('outer')
+      //   effect(() => {
+      //     console.log('name inner effect', Date.now(), ref.name)
+      //   })
+      //   console.log('age outer effect', ref.age)
+      // })
+      // window.ref = ref
+      const age = ref(20)
       effect(() => {
-        console.log('outer')
-        effect(() => {
-          console.log('name inner effect', Date.now(), ref.name)
-        })
-        console.log('age outer effect', ref.age)
+        console.log('age change', age.value)
       })
-      window.ref = ref
+      window.age = age
     </script>
   </body>
 </html>
