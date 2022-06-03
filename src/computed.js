@@ -2,19 +2,30 @@
  * @Description : 计算属性
  * @Date        : 2022-06-04 03:37:25 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 04:39:05 +0800
+ * @LastEditTime: 2022-06-04 04:58:49 +0800
  * @LastEditors : JackChou
  */
 import { effect, track } from './effect.js'
-
-export function computed(getter) {
-  return new Compute(getter)
+import { isObject } from './utils.js'
+export function computed(getterOrSetter) {
+  let setter = () => {
+      console.warn('computed is read only, please provide setter')
+    },
+    getter = null
+  if (isObject(getterOrSetter)) {
+    getter = getterOrSetter.get
+    getterOrSetter.set && (setter = getterOrSetter.set)
+  } else {
+    getter = getterOrSetter
+  }
+  return new Compute(getter, setter)
 }
 
 class Compute {
-  constructor(getter) {
+  constructor(getter, setter) {
     this._value = null
     this._dirty = true
+    this._setter = setter
     this.effect = effect(getter, {
       lazy: true,
       //NOTE 依赖边触发，触发调度程序
@@ -35,6 +46,7 @@ class Compute {
     return this._value
   }
   set value(value) {
-    // TODO:
+    console.log('setter', value)
+    this._setter(value)
   }
 }
