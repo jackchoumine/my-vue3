@@ -2,7 +2,7 @@
  * @Description : 测试页面
  * @Date        : 2022-06-03 22:45:56 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-03 23:04:19 +0800
+ * @LastEditTime: 2022-06-03 23:56:40 +0800
  * @LastEditors : JackChou
 -->
 <!DOCTYPE html>
@@ -16,11 +16,13 @@
   <body>
     <div id="app"><h1>hello vue</h1></div>
     <script type="module">
-      import { reactive } from './src/index.js'
+      import { reactive, effect } from './src/index.js'
       const ref = reactive({ name: 'jack' })
-      ref.name = 'jack chou'
-      console.log(ref.name)
       ref.age = 24
+      effect(() => {
+        console.log('effect run', ref.name)
+      })
+      window.ref = ref
     </script>
   </body>
 </html>
