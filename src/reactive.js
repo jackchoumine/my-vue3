@@ -2,10 +2,10 @@
  * @Description :
  * @Date        : 2022-06-03 23:02:27 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 00:12:46 +0800
+ * @LastEditTime: 2022-06-04 00:19:13 +0800
  * @LastEditors : JackChou
  */
-import { isOject, isReactive } from './utils.js'
+import { isOject, isReactive, hasChange } from './utils.js'
 import { track, trigger } from './effect.js'
 
 const proxyMap = new WeakMap()
@@ -30,10 +30,11 @@ export function reactive(target) {
     },
     set(target, key, value, receiver) {
       console.log('set', key, value)
-      const _value = Reflect.set(target, key, value, receiver)
-      // NOTE 触发副作用
-      trigger(target, key)
-      return _value
+      const oldValue = target[key]
+      const newValue = Reflect.set(target, key, value, receiver)
+      // NOTE 依赖发生改变，才触发副作用
+      hasChange(oldValue, newValue) && trigger(target, key)
+      return newValue
     },
   })
   proxyMap.set(target, proxy)
