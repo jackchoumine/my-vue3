@@ -2,7 +2,7 @@
  * @Description : 测试页面
  * @Date        : 2022-06-03 22:45:56 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 03:32:13 +0800
+ * @LastEditTime: 2022-06-04 04:42:15 +0800
  * @LastEditors : JackChou
 -->
 <!DOCTYPE html>
@@ -17,8 +17,8 @@
   <body>
     <div id="app"><h1>hello vue</h1></div>
     <script type="module">
-      import { effect, ref } from '/src/index.js'
-      // import { reactive, effect } from '/node_modules/vue/dist/vue.esm-browser.prod.js'
+      import { effect, ref, computed } from '/src/index.js'
+      // import { reactive, effect, computed, ref } from '/node_modules/vue/dist/vue.esm-browser.prod.js'
       // import { reactive } from Vue
       // const ref = reactive({
       //   name: 'jack',
@@ -52,11 +52,25 @@
       //   console.log('age outer effect', ref.age)
       // })
       // window.ref = ref
-      const age = ref(20)
-      effect(() => {
-        console.log('age change', age.value)
+      // const age = ref(20)
+      // effect(() => {
+      //   console.log('age change', age.value)
+      // })
+      // window.age = age
+      //NOTE 计算属性 50
+      const price = ref(4)
+      window.price = price
+      const count = ref(40)
+      window.count = count
+      const total = computed(() => {
+        console.log('computed')
+        return price.value * count.value
       })
-      window.age = age
+      window.total = total
+      // setter
+      // effect(() => {
+      //   console.log('total change', total.value)
+      // })
     </script>
   </body>
 </html>

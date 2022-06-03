@@ -2,7 +2,7 @@
  * @Description : 副作用
  * @Date        : 2022-06-03 23:06:05 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 03:18:17 +0800
+ * @LastEditTime: 2022-06-04 04:38:31 +0800
  * @LastEditors : JackChou
  */
 import { isFn } from './utils.js'
@@ -11,13 +11,15 @@ const effectStack = []
 // NOTE 记录当前副作用
 let activeEffect = null
 
-export function effect(fn) {
-  if (!isFn(fn)) return
-  const effectFn = () => {
+export function effect(effectFn, { lazy = false, scheduler = '' } = {}) {
+  if (!isFn(effectFn)) return
+
+  const fn = () => {
     try {
-      activeEffect = fn
-      effectStack.push(fn)
-      fn()
+      activeEffect = effectFn
+      effectStack.push(effectFn)
+      // NOTE 返回，否则计算属性不会更新
+      return effectFn()
     } catch (error) {
       console.log(error)
     } finally {
@@ -26,8 +28,11 @@ export function effect(fn) {
       activeEffect = effectStack.pop()
     }
   }
-  effectFn()
-  return effectFn
+
+  !lazy && fn()
+  effectFn.scheduler = scheduler
+  // NOTE 返回副作用
+  return fn
 }
 /**
  * {
@@ -72,7 +77,11 @@ export function trigger(target, key) {
   const deps = depsMap.get(key)
   if (!deps) return
   console.log('deps size', deps.size)
-  deps.forEach((effect) => {
-    effect()
+  deps.forEach((effectFn) => {
+    if (effectFn.scheduler) {
+      effectFn.scheduler()
+    } else {
+      effectFn()
+    }
   })
 }
