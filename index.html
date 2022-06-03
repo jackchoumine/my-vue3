@@ -2,7 +2,7 @@
  * @Description : 测试页面
  * @Date        : 2022-06-03 22:45:56 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 00:48:17 +0800
+ * @LastEditTime: 2022-06-04 01:03:10 +0800
  * @LastEditors : JackChou
 -->
 <!DOCTYPE html>
@@ -17,19 +17,28 @@
     <div id="app"><h1>hello vue</h1></div>
     <script type="module">
       import { reactive, effect } from './src/index.js'
-      const ref = reactive({
-        name: 'jack',
-        detail: {
-          city: 'ChengDu',
-        },
-      })
+      // const ref = reactive({
+      //   name: 'jack',
+      //   detail: {
+      //     city: 'ChengDu',
+      //   },
+      // })
 
-      ref.age = 24
+      // ref.age = 24
+      // effect(() => {
+      //   console.log('effect run', ref.name, ref.detail)
+      // })
+      // console.log(ref.detail.city)
+      // window.ref = ref
+      // 响应式数组
+      const arr = reactive([1, 2, 3])
       effect(() => {
-        console.log('effect run', ref.name, ref.detail)
+        console.log('副作用 arr[4]', arr[4])
       })
-      console.log(ref.detail.city)
-      window.ref = ref
+      effect(() => {
+        console.log('副作用 arr.length', arr.length)
+      })
+      window.arr = arr
     </script>
   </body>
 </html>

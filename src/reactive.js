@@ -2,7 +2,7 @@
  * @Description :
  * @Date        : 2022-06-03 23:02:27 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 00:50:27 +0800
+ * @LastEditTime: 2022-06-04 01:11:01 +0800
  * @LastEditors : JackChou
  */
 import { isObject, isReactive, hasChange } from './utils.js'
@@ -30,10 +30,16 @@ export function reactive(target) {
     },
     set(target, key, newValue, receiver) {
       console.log('set', key, newValue)
+      const oldLength = Array.isArray(target) && target.length
       const oldValue = target[key]
       const success = Reflect.set(target, key, newValue, receiver)
       // NOTE 依赖发生改变，才触发副作用
-      hasChange(newValue, oldValue) && trigger(target, key)
+      if (hasChange(newValue, oldValue)) {
+        trigger(target, key)
+        if (hasChange(target.length, oldLength)) {
+          trigger(target, 'length')
+        }
+      }
       return success
     },
   })
