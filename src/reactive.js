@@ -2,16 +2,22 @@
  * @Description :
  * @Date        : 2022-06-03 23:02:27 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 00:08:04 +0800
+ * @LastEditTime: 2022-06-04 00:12:46 +0800
  * @LastEditors : JackChou
  */
 import { isOject, isReactive } from './utils.js'
 import { track, trigger } from './effect.js'
 
+const proxyMap = new WeakMap()
+
 export function reactive(target) {
   if (!isOject(target)) return target
+
   //NOTE 处理 reactive(reactive)
   if (isReactive(target)) return target
+  //NOTE  const a = reactive(obj), b = reactive(obj)
+  if (proxyMap.has(target)) return target
+
   const proxy = new Proxy(target, {
     get(target, key, receiver) {
       console.log('get', key)
@@ -30,5 +36,6 @@ export function reactive(target) {
       return _value
     },
   })
+  proxyMap.set(target, proxy)
   return proxy
 }
