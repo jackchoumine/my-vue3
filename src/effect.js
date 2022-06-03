@@ -2,11 +2,12 @@
  * @Description : 副作用
  * @Date        : 2022-06-03 23:06:05 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 00:00:23 +0800
+ * @LastEditTime: 2022-06-04 03:15:47 +0800
  * @LastEditors : JackChou
  */
 import { isFn } from './utils.js'
 
+const effectStack = []
 // NOTE 记录当前副作用
 let activeEffect = null
 
@@ -15,12 +16,14 @@ export function effect(fn) {
   const effectFn = () => {
     try {
       activeEffect = fn
-      return fn()
+      effectStack.push(fn)
+      fn()
     } catch (error) {
       console.log(error)
     } finally {
       // NOTE 副作用执行完毕，当前副作用设置为 null
-      activeEffect = null
+      effectStack.pop() // NOTE 之前的副作用出栈
+      activeEffect = effectStack.pop()
     }
   }
   effectFn()
@@ -42,7 +45,7 @@ const targetMap = new WeakMap()
  */
 export function track(target, key) {
   if (!activeEffect) return
-  console.log('依赖收集')
+  console.log('依赖收集-----', key)
   let depsMap = targetMap.get(target)
   if (!depsMap) {
     targetMap.set(target, (depsMap = new Map()))
@@ -57,6 +60,7 @@ export function track(target, key) {
   // console.log(targetMap.get(target).get(key))
   // console.log(deps)
 }
+
 /**
  * 响应式对象发生变化，执行副作用
  * @param {Object} target 响应式对象
@@ -67,5 +71,9 @@ export function trigger(target, key) {
   if (!depsMap) return
   const deps = depsMap.get(key)
   if (!deps) return
-  deps.forEach(effect)
+  console.log('deps')
+  console.log(deps.size)
+  deps.forEach((effect) => {
+    effect()
+  })
 }
