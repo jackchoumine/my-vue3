@@ -2,16 +2,16 @@
  * @Description :
  * @Date        : 2022-06-03 23:02:27 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 00:31:53 +0800
+ * @LastEditTime: 2022-06-04 00:50:27 +0800
  * @LastEditors : JackChou
  */
-import { isOject, isReactive, hasChange } from './utils.js'
+import { isObject, isReactive, hasChange } from './utils.js'
 import { track, trigger } from './effect.js'
 
 const proxyMap = new WeakMap()
 
 export function reactive(target) {
-  if (!isOject(target)) return target
+  if (!isObject(target)) return target
 
   //NOTE 处理 reactive(reactive)
   if (isReactive(target)) return target
@@ -26,7 +26,7 @@ export function reactive(target) {
       // TODO 如何让副作用和proxy 发生联系
       // NOTE 收集副作用的依赖
       track(target, key)
-      return value
+      return isObject(value) ? reactive(value) : value
     },
     set(target, key, newValue, receiver) {
       console.log('set', key, newValue)
