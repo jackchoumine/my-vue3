@@ -2,7 +2,7 @@
  * @Description :
  * @Date        : 2022-06-03 23:02:27 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-04 00:19:13 +0800
+ * @LastEditTime: 2022-06-04 00:31:53 +0800
  * @LastEditors : JackChou
  */
 import { isOject, isReactive, hasChange } from './utils.js'
@@ -28,13 +28,13 @@ export function reactive(target) {
       track(target, key)
       return value
     },
-    set(target, key, value, receiver) {
-      console.log('set', key, value)
+    set(target, key, newValue, receiver) {
+      console.log('set', key, newValue)
       const oldValue = target[key]
-      const newValue = Reflect.set(target, key, value, receiver)
+      const success = Reflect.set(target, key, newValue, receiver)
       // NOTE 依赖发生改变，才触发副作用
-      hasChange(oldValue, newValue) && trigger(target, key)
-      return newValue
+      hasChange(newValue, oldValue) && trigger(target, key)
+      return success
     },
   })
   proxyMap.set(target, proxy)
