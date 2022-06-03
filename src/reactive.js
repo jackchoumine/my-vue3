@@ -36,6 +36,7 @@ export function reactive(target) {
       // NOTE 依赖发生改变，才触发副作用
       if (hasChange(newValue, oldValue)) {
         trigger(target, key)
+        // NOTE 处理数组的 length
         if (Array.isArray(target) && hasChange(target.length, oldLength)) {
           trigger(target, 'length')
         }
