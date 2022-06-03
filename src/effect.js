@@ -2,7 +2,7 @@
  * @Description : 副作用
  * @Date        : 2022-06-03 23:06:05 +0800
  * @Author      : JackChou
- * @LastEditTime: 2022-06-03 23:55:34 +0800
+ * @LastEditTime: 2022-06-04 00:00:23 +0800
  * @LastEditors : JackChou
  */
 import { isFn } from './utils.js'
@@ -18,6 +18,9 @@ export function effect(fn) {
       return fn()
     } catch (error) {
       console.log(error)
+    } finally {
+      // NOTE 副作用执行完毕，当前副作用设置为 null
+      activeEffect = null
     }
   }
   effectFn()
