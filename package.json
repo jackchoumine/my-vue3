@@ -5,7 +5,9 @@
   "main": "index.js",
   "type": "module",
   "scripts": {},
-  "keywords": [],
+  "keywords": [
+    "https://www.bilibili.com/video/BV1564y1s7s5?spm_id_from=333.999.0.0&vd_source=9bbf149e26315d2edf55b034712e09d6"
+  ],
   "author": "jackchoumine <jackzhoumine@gmail.com;jackchou4job@163.com>",
   "license": "MIT",
   "dependencies": {
